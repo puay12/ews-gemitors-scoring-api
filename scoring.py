@@ -19,14 +19,7 @@ def castData(row):
     return data
 
 def calculate_ews_score(request_data):
-    final_scores = {
-        'heart_rate': 0,
-        'systolic_blood_pressure': 0,
-        'diastolic_blood_pressure': 0,
-        'respiratory_rate': 0,
-        'temperature': 0,
-        'spo2': 0
-    }
+    final_scores = {}
 
     ews_table = pd.read_excel('Generated_EWSTable.xlsx')
 
@@ -34,16 +27,22 @@ def calculate_ews_score(request_data):
         match(key):
             case 'heart_rate':
                 row = ews_table[ews_table["Vital Sign"]=="Heart Rate"]
+                final_key = 'heart_score'
             case 'systolic_blood_pressure':
                 row = ews_table[ews_table["Vital Sign"]=="Systolic Blood Pressure"]
+                final_key = 'sys_score'
             case 'diastolic_blood_pressure':
                 row = ews_table[ews_table["Vital Sign"]=="Diastolic Blood Pressure"]
+                final_key = 'dias_score'
             case 'respiratory_rate':
                 row = ews_table[ews_table["Vital Sign"]=="Respiratory Rate"]
+                final_key = 'respiratory_score'
             case 'temperature':
                 row = ews_table[ews_table["Vital Sign"]=="Temperature"]
+                final_key = 'temp_score'
             case 'spo2':
                 row = ews_table[ews_table["Vital Sign"]=="SPO2"]
+                final_key = 'spo2_score'
         
         data = castData(row)
         value = float(value)
@@ -72,7 +71,7 @@ def calculate_ews_score(request_data):
                                 case 5:
                                     score = 2
         
-        final_scores.update({key:score})
+        final_scores.update({final_key:score})
     
     return final_scores
 
