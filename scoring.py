@@ -3,7 +3,7 @@ import pandas as pd
 def castData(row):
     data = []
     
-    new_row = row.drop(columns='Vital Sign')
+    new_row = row.drop(columns='vital_sign')
     
     for col in new_row:
         obj = new_row[col].iloc[0]
@@ -26,22 +26,22 @@ def calculate_ews_score(request_data):
     for key,value in request_data.items():
         match(key):
             case 'heart_rate':
-                row = ews_table[ews_table["Vital Sign"]=="Heart Rate"]
+                row = ews_table[ews_table["vital_sign"]=="Heart Rate"]
                 final_key = 'heart_score'
             case 'systolic_blood_pressure':
-                row = ews_table[ews_table["Vital Sign"]=="Systolic Blood Pressure"]
+                row = ews_table[ews_table["vital_sign"]=="Systolic Blood Pressure"]
                 final_key = 'sys_score'
             case 'diastolic_blood_pressure':
-                row = ews_table[ews_table["Vital Sign"]=="Diastolic Blood Pressure"]
+                row = ews_table[ews_table["vital_sign"]=="Diastolic Blood Pressure"]
                 final_key = 'dias_score'
             case 'respiratory_rate':
-                row = ews_table[ews_table["Vital Sign"]=="Respiratory Rate"]
+                row = ews_table[ews_table["vital_sign"]=="Respiratory Rate"]
                 final_key = 'respiratory_score'
             case 'temperature':
-                row = ews_table[ews_table["Vital Sign"]=="Temperature"]
+                row = ews_table[ews_table["vital_sign"]=="Temperature"]
                 final_key = 'temp_score'
             case 'spo2':
-                row = ews_table[ews_table["Vital Sign"]=="SPO2"]
+                row = ews_table[ews_table["vital_sign"]=="SPO2"]
                 final_key = 'spo2_score'
         
         data = castData(row)
