@@ -50,7 +50,7 @@ def calculate_ews_score(request_data):
         for i,item in enumerate(data):
             if item != 0.0:
                 if type(item) == float:
-                    if ((value >= item) & (i == (len(data)-1))) | ((value <= item) & (i == 0)):
+                    if (((value >= item) & (i == (len(data)-1))) | ((value <= item) & (i == 0))):
                         score = 3
                 else:
                     next_val = data[i+1]
@@ -59,17 +59,12 @@ def calculate_ews_score(request_data):
                         next_val = next_val[0]
                         
                     if ((value >= item[1]) & (value <= next_val)) | ((value >= item[0]) & (value <= item[1])):
-                        match(i):
-                                case 1:
-                                    score = 2
-                                case 2:
-                                    score = 1
-                                case 3:
-                                    score = 0
-                                case 4:
-                                    score = 1
-                                case 5:
-                                    score = 2
+                        score = match_score(i)
+                    else :
+                        prev_val = data[i-1]
+                        
+                        if((prev_val == 0.0) & (i > 0)):
+                            score = match_score(i)
         
         final_scores.update({final_key:score})
     
@@ -83,3 +78,16 @@ def calculate_total_score(scores):
         total += score
 
     return total
+
+def match_score(i):
+    match(i):
+        case 1:
+            return 2
+        case 2:
+            return 1
+        case 3:
+            return 0
+        case 4:
+            return 1
+        case 5:
+            return 2
